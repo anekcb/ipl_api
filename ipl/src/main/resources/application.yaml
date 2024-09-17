@@ -16,5 +16,17 @@ spring:
 
   jpa:
     show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+
 server:
   port: 9000
