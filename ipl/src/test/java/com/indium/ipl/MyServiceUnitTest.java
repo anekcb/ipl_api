@@ -86,7 +86,7 @@ public class MyServiceUnitTest {
     }
 
     @Test
-    public void testGetOrCreatePlayer_ExistingPlayer() {
+    public void testGetOrCreatePlayerExistingPlayer() {
         String playerName = "John Doe";
         Player existingPlayer = new Player();
         existingPlayer.setName(playerName);
@@ -98,7 +98,7 @@ public class MyServiceUnitTest {
     }
 
     @Test
-    public void testGetOrCreatePlayer_NewPlayer() {
+    public void testGetOrCreatePlayerNewPlayer() {
         String playerName = "New Player";
         when(playerRepository.findByName(playerName)).thenReturn(null);
         Player result = myService.getOrCreatePlayer(playerName);

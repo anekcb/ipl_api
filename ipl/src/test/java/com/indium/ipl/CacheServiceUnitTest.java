@@ -279,7 +279,7 @@ public class CacheServiceUnitTest {
     }
 
     @Test
-    void testGetMatchesByPlayerName_CachingBehavior() {
+    void testGetMatchesByPlayerNameCachingBehavior() {
         String playerName = "Virat Kohli";
         List<Object[]> expectedMatches = Collections.singletonList(new Object[]{"Match 1", playerName});
         when(matchRepository.findMatchNumberAndPlayerNameByPlayerName(playerName)).thenReturn(expectedMatches);
@@ -292,7 +292,7 @@ public class CacheServiceUnitTest {
     }
 
     @Test
-    void testGetCumulativeScoreByPlayerName_CachingBehavior() {
+    void testGetCumulativeScoreByPlayerNameCachingBehavior() {
         String playerName = "Virat Kohli";
         Long expectedScore = 500L;
         when(deliveryRepository.getCumulativeScoreByPlayerName(playerName)).thenReturn(expectedScore);
@@ -305,7 +305,7 @@ public class CacheServiceUnitTest {
     }
 
     @Test
-    void testGetScoresByDate_CachingBehavior() {
+    void testGetScoresByDateCachingBehavior() {
         String matchDate = "2023-09-12";
         List<Object[]> results = Arrays.asList(new Object[]{1, 200L}, new Object[]{2, 150L});
         when(deliveryRepository.findScoresByMatchDate(LocalDate.parse(matchDate))).thenReturn(results);
@@ -320,7 +320,7 @@ public class CacheServiceUnitTest {
     }
 
     @Test
-    void testGetTopBatsmen_CachingBehavior() {
+    void testGetTopBatsmenCachingBehavior() {
         int page = 0;
         int size = 5;
         Page<Object[]> expectedPage = mock(Page.class);

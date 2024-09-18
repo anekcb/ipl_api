@@ -24,6 +24,8 @@ spring:
           uri: ${MATCH_API_URI:http://localhost:9000}
           predicates:
             - Path=/api/matches/topbatsmen
-
+#jwt:
+#  secret:
+#    endpoint: http://your-config-service/jwt-secret
 server:
   port: 7000

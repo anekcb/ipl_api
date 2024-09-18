@@ -55,7 +55,7 @@ public class MyControllerUnitTest {
 	}
 
 	@Test
-	public void testInsertMatchData_Success() throws Exception {
+	public void testInsertMatchDataSuccess() throws Exception {
 		String jsonData = "{}";
 
 		doNothing().when(myService).insertMatchData(jsonData);
@@ -70,7 +70,7 @@ public class MyControllerUnitTest {
 	}
 
 	@Test
-	public void testInsertMatchData_JsonParseException() throws Exception {
+	public void testInsertMatchDataJsonParseException() throws Exception {
 		String jsonData = "{";
 
 		doThrow(new IOException("Invalid JSON")).when(myService).insertMatchData(jsonData);
@@ -82,7 +82,7 @@ public class MyControllerUnitTest {
 	}
 
 	@Test
-	public void testInsertMatchData_OtherException() throws Exception {
+	public void testInsertMatchDataOtherException() throws Exception {
 		String jsonData = "{}";
 
 		doThrow(new RuntimeException("Unexpected Error")).when(myService).insertMatchData(jsonData);

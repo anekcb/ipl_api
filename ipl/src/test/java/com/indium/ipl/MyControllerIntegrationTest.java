@@ -59,7 +59,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenInsertMatchData_thenReturns201() throws Exception {
+    public void whenInsertMatchDataThenReturns201() throws Exception {
         String jsonData = "{\"key\": \"value\"}";
 
         mockMvc.perform(post("/api/matches/insert")
@@ -70,7 +70,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenInsertInvalidMatchData_thenReturns400() throws Exception {
+    public void whenInsertInvalidMatchDataThenReturns400() throws Exception {
         String jsonData = "{\"invalid\": }";
         String errorMessage = "Unrecognized token '}'";
 
@@ -84,7 +84,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenInsertMatchData_withException_thenReturns500() throws Exception {
+    public void whenInsertMatchDataWithExceptionThenReturns500() throws Exception {
         String jsonData = "{\"key\": \"value\"}";
         String errorMessage = "Test Exception";
 
@@ -98,7 +98,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenGetMatchesByPlayerName_thenReturns200() throws Exception {
+    public void whenGetMatchesByPlayerNameThenReturns200() throws Exception {
         String playerName = "player";
         when(cacheService.getMatchesByPlayerName(playerName, matchRepository)).thenReturn(Collections.emptyList());
 
@@ -108,7 +108,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenGetCumulativeScore_thenReturns200() throws Exception {
+    public void whenGetCumulativeScoreThenReturns200() throws Exception {
         String playerName = "player";
         when(cacheService.getCumulativeScoreByPlayerName(playerName, deliveryRepository)).thenReturn(100L);
 
@@ -119,7 +119,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenGetScoresByDate_thenReturns200() throws Exception {
+    public void whenGetScoresByDateThenReturns200() throws Exception {
         String matchDate = "2021-01-01";
         when(cacheService.getScoresByDate(matchDate, deliveryRepository)).thenReturn(Collections.emptyMap());
 
@@ -130,7 +130,7 @@ public class MyControllerIntegrationTest {
     }
 
     @Test
-    public void whenGetTopBatsmen_thenReturns200() throws Exception {
+    public void whenGetTopBatsmenThenReturns200() throws Exception {
         int page = 0;
         int size = 10;
         Page<Object[]> emptyPage = Page.empty();
