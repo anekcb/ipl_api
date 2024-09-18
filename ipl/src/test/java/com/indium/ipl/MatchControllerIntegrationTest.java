@@ -1,11 +1,11 @@
 package com.indium.ipl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.indium.ipl.controller.MyController;
+import com.indium.ipl.controller.MatchController;
 import com.indium.ipl.repository.DeliveryRepository;
 import com.indium.ipl.repository.MatchRepository;
 import com.indium.ipl.service.CacheService;
-import com.indium.ipl.service.MyService;
+import com.indium.ipl.service.MatchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,14 +29,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(MyController.class)
-public class MyControllerIntegrationTest {
+@WebMvcTest(MatchController.class)
+public class MatchControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private MyService myService;
+    private MatchService matchService;
 
     @MockBean
     private MatchRepository matchRepository;
@@ -74,7 +74,7 @@ public class MyControllerIntegrationTest {
         String jsonData = "{\"invalid\": }";
         String errorMessage = "Unrecognized token '}'";
 
-        doThrow(new IOException(errorMessage)).when(myService).insertMatchData(any(String.class));
+        doThrow(new IOException(errorMessage)).when(matchService).insertMatchData(any(String.class));
 
         mockMvc.perform(post("/api/matches/insert")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +88,7 @@ public class MyControllerIntegrationTest {
         String jsonData = "{\"key\": \"value\"}";
         String errorMessage = "Test Exception";
 
-        doThrow(new RuntimeException(errorMessage)).when(myService).insertMatchData(any(String.class));
+        doThrow(new RuntimeException(errorMessage)).when(matchService).insertMatchData(any(String.class));
 
         mockMvc.perform(post("/api/matches/insert")
                         .contentType(MediaType.APPLICATION_JSON)

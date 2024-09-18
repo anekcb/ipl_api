@@ -2,11 +2,11 @@ package com.indium.ipl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.indium.ipl.controller.MyController;
+import com.indium.ipl.controller.MatchController;
 import com.indium.ipl.repository.DeliveryRepository;
 import com.indium.ipl.repository.MatchRepository;
 import com.indium.ipl.service.CacheService;
-import com.indium.ipl.service.MyService;
+import com.indium.ipl.service.MatchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,13 +26,13 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class MyControllerUnitTest {
+public class MatchControllerUnitTest {
 
 	@InjectMocks
-	private MyController myController;
+	private MatchController matchController;
 
 	@Mock
-	private MyService myService;
+	private MatchService matchService;
 
 	@Mock
 	private MatchRepository matchRepository;
@@ -58,14 +58,14 @@ public class MyControllerUnitTest {
 	public void testInsertMatchDataSuccess() throws Exception {
 		String jsonData = "{}";
 
-		doNothing().when(myService).insertMatchData(jsonData);
+		doNothing().when(matchService).insertMatchData(jsonData);
 		doNothing().when(cacheService).evictAllCaches();
 
-		ResponseEntity<String> response = myController.insertMatchData(jsonData);
+		ResponseEntity<String> response = matchController.insertMatchData(jsonData);
 
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertEquals("Match data inserted successfully!", response.getBody());
-		verify(myService, times(1)).insertMatchData(jsonData);
+		verify(matchService, times(1)).insertMatchData(jsonData);
 		verify(cacheService, times(1)).evictAllCaches();
 	}
 
@@ -73,9 +73,9 @@ public class MyControllerUnitTest {
 	public void testInsertMatchDataJsonParseException() throws Exception {
 		String jsonData = "{";
 
-		doThrow(new IOException("Invalid JSON")).when(myService).insertMatchData(jsonData);
+		doThrow(new IOException("Invalid JSON")).when(matchService).insertMatchData(jsonData);
 
-		ResponseEntity<String> response = myController.insertMatchData(jsonData);
+		ResponseEntity<String> response = matchController.insertMatchData(jsonData);
 
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("Failed to parse JSON data: Invalid JSON", response.getBody());
@@ -85,9 +85,9 @@ public class MyControllerUnitTest {
 	public void testInsertMatchDataOtherException() throws Exception {
 		String jsonData = "{}";
 
-		doThrow(new RuntimeException("Unexpected Error")).when(myService).insertMatchData(jsonData);
+		doThrow(new RuntimeException("Unexpected Error")).when(matchService).insertMatchData(jsonData);
 
-		ResponseEntity<String> response = myController.insertMatchData(jsonData);
+		ResponseEntity<String> response = matchController.insertMatchData(jsonData);
 
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals("Error inserting match data: Unexpected Error", response.getBody());
@@ -101,7 +101,7 @@ public class MyControllerUnitTest {
 		when(cacheService.getMatchesByPlayerName(playerName, matchRepository)).thenReturn(matches);
 		when(objectMapper.writeValueAsString(matches)).thenReturn("[]");
 
-		ResponseEntity<List<Object[]>> response = myController.getMatchesByPlayerName(playerName);
+		ResponseEntity<List<Object[]>> response = matchController.getMatchesByPlayerName(playerName);
 
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(matches, response.getBody());
@@ -116,7 +116,7 @@ public class MyControllerUnitTest {
 		when(cacheService.getCumulativeScoreByPlayerName(playerName, deliveryRepository)).thenReturn(score);
 		when(objectMapper.writeValueAsString(score)).thenReturn("100");
 
-		Long result = myController.getCumulativeScore(playerName);
+		Long result = matchController.getCumulativeScore(playerName);
 
 		assertEquals(score, result);
 		verify(kafkaTemplate, times(1)).send("match-logs-topic", "100");
@@ -130,7 +130,7 @@ public class MyControllerUnitTest {
 		when(cacheService.getScoresByDate(matchDate, deliveryRepository)).thenReturn(scores);
 		when(objectMapper.writeValueAsString(scores)).thenReturn("{\"1\":100}");
 
-		Map<Integer, Long> result = myController.getScoresByDate(matchDate);
+		Map<Integer, Long> result = matchController.getScoresByDate(matchDate);
 
 		assertEquals(scores, result);
 		verify(kafkaTemplate, times(1)).send("match-logs-topic", "{\"1\":100}");
@@ -146,7 +146,7 @@ public class MyControllerUnitTest {
 		when(cacheService.getTopBatsmen(page, size, deliveryRepository)).thenReturn(batsmen);
 		when(objectMapper.writeValueAsString(batsmen.getContent())).thenReturn("[]");
 
-		Page<Object[]> result = myController.getTopBatsmen(page, size);
+		Page<Object[]> result = matchController.getTopBatsmen(page, size);
 
 		assertEquals(batsmen, result);
 		verify(kafkaTemplate, times(1)).send("match-logs-topic", "[]");

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.indium.ipl.repository.DeliveryRepository;
 import com.indium.ipl.repository.MatchRepository;
 import com.indium.ipl.service.CacheService;
-import com.indium.ipl.service.MyService;
+import com.indium.ipl.service.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,19 +25,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * MyController is a REST controller that manages APIs related to match data.
+ * MatchController is a REST controller that manages APIs related to match data.
  * It contains endpoints to insert match data, fetch match information by player name,
  * get cumulative scores, scores by match date, and top batsmen information.
  */
 @Tag(name = "Match Data", description = "Endpoints to manage match data")
 @RestController
 @RequestMapping("/api/matches")
-public class MyController {
+public class MatchController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MyController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MatchController.class);
 
     @Autowired
-    private MyService myService;
+    private MatchService matchService;
 
     @Autowired
     private MatchRepository matchRepository;
@@ -65,7 +65,7 @@ public class MyController {
     public ResponseEntity<String> insertMatchData(@Parameter(description = "JSON formatted match data", required = true)
                                                   @RequestBody String jsonData) {
         try {
-            myService.insertMatchData(jsonData);
+            matchService.insertMatchData(jsonData);
             cacheService.evictAllCaches();
             return new ResponseEntity<>("Match data inserted successfully!", HttpStatus.CREATED);
         } catch (IOException e) {

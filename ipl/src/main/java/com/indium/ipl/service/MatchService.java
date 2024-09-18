@@ -18,7 +18,7 @@ import java.util.*;
  * players, officials, innings, overs, deliveries, etc.
  */
 @Service
-public class MyService {
+public class MatchService {
 
     @Autowired
     private MatchRepository matchesRepository;

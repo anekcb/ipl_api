@@ -2,7 +2,7 @@ package com.indium.ipl;
 
 import com.indium.ipl.Entity.*;
 import com.indium.ipl.repository.*;
-import com.indium.ipl.service.MyService;
+import com.indium.ipl.service.MatchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class MyServiceUnitTest {
+public class MatchServiceUnitTest {
     @Mock
     private MatchRepository matchesRepository;
     @Mock
@@ -45,7 +45,7 @@ public class MyServiceUnitTest {
     @Mock
     private PowerplayRepository powerplayRepository;
     @InjectMocks
-    private MyService myService;
+    private MatchService matchService;
 
     @BeforeEach
     public void setUp() {
@@ -70,7 +70,7 @@ public class MyServiceUnitTest {
         when(deliveryFielderRepository.save(any())).thenReturn(null);
         when(powerplayRepository.save(any())).thenReturn(null);
 
-        myService.insertMatchData(jsonData);
+        matchService.insertMatchData(jsonData);
 
         verify(matchesRepository).save(any());
         verify(eventRepository).save(any());
@@ -91,7 +91,7 @@ public class MyServiceUnitTest {
         Player existingPlayer = new Player();
         existingPlayer.setName(playerName);
         when(playerRepository.findByName(playerName)).thenReturn(existingPlayer);
-        Player result = myService.getOrCreatePlayer(playerName);
+        Player result = matchService.getOrCreatePlayer(playerName);
         assertNotNull(result);
         assertEquals(playerName, result.getName());
         verify(playerRepository, never()).save(any());
@@ -101,7 +101,7 @@ public class MyServiceUnitTest {
     public void testGetOrCreatePlayerNewPlayer() {
         String playerName = "New Player";
         when(playerRepository.findByName(playerName)).thenReturn(null);
-        Player result = myService.getOrCreatePlayer(playerName);
+        Player result = matchService.getOrCreatePlayer(playerName);
         assertNotNull(result);
         assertEquals(playerName, result.getName());
         verify(playerRepository, times(1)).save(any(Player.class));
