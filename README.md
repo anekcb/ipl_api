@@ -1,4 +1,5 @@
 **IPL Match Backend API**
+
 This project provides a Spring Boot API for IPL match data management.
 
 docker hub repo pull for IPL: docker pull anekcb/ipl:0.0.1
@@ -6,6 +7,7 @@ docker hub repo pull for IPL: docker pull anekcb/ipl:0.0.1
 docker hub repo pull for SQL(port = 1000) : docker pull anekcb/ipl_database:0.0.1
 
 **Completed**
+
 ✔ Design DB schema in PostgreSQL based on the provided JSON files.
 
 ✔ Entity classes with relationships.
@@ -46,7 +48,7 @@ docker hub repo pull for SQL(port = 1000) : docker pull anekcb/ipl_database:0.0.
  
  ✔ Actuator.
 
-**to-do**
+**To-Do**
 - JWT in the main project
   
 - Unit and integration test with JWT
